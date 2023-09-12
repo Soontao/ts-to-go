@@ -32,7 +32,6 @@ parser grammar TypeScriptParser;
 
 options {
     tokenVocab=TypeScriptLexer;
-    superClass=TypeScriptParserBase;
 }
 
 // SupportSyntax
@@ -96,7 +95,7 @@ primaryType
     | predefinedType                                #PredefinedPrimType
     | typeReference                                 #ReferencePrimType
     | objectType                                    #ObjectPrimType
-    | primaryType {notLineTerminator()}? '[' ']'    #ArrayPrimType
+    | primaryType {p.notLineTerminator()}? '[' ']'    #ArrayPrimType
     | '[' tupleElementTypes ']'                     #TuplePrimType
     | typeQuery                                     #QueryPrimType
     | This                                          #ThisPrimType
@@ -410,7 +409,7 @@ emptyStatement_
     ;
 
 expressionStatement
-    : {this.notOpenBraceAndNotFunction()}? expressionSequence SemiColon?
+    : {p.notOpenBraceAndNotFunction()}? expressionSequence SemiColon?
     ;
 
 ifStatement
@@ -424,8 +423,8 @@ iterationStatement
     | For '(' expressionSequence? SemiColon expressionSequence? SemiColon expressionSequence? ')' statement     # ForStatement
     | For '(' varModifier variableDeclarationList SemiColon expressionSequence? SemiColon expressionSequence? ')'
           statement                                                                                             # ForVarStatement
-    | For '(' singleExpression (In | Identifier{this.p("of")}?) expressionSequence ')' statement                # ForInStatement
-    | For '(' varModifier variableDeclaration (In | Identifier{this.p("of")}?) expressionSequence ')' statement # ForVarInStatement
+    | For '(' singleExpression (In | Identifier{p.p("of")}?) expressionSequence ')' statement                # ForInStatement
+    | For '(' varModifier variableDeclaration (In | Identifier{p.p("of")}?) expressionSequence ')' statement # ForVarInStatement
     ;
 
 varModifier
@@ -435,19 +434,19 @@ varModifier
     ;
 
 continueStatement
-    : Continue ({this.notLineTerminator()}? Identifier)? eos
+    : Continue ({p.notLineTerminator()}? Identifier)? eos
     ;
 
 breakStatement
-    : Break ({this.notLineTerminator()}? Identifier)? eos
+    : Break ({p.notLineTerminator()}? Identifier)? eos
     ;
 
 returnStatement
-    : Return ({this.notLineTerminator()}? expressionSequence)? eos
+    : Return ({p.notLineTerminator()}? expressionSequence)? eos
     ;
 
 yieldStatement
-    : Yield ({this.notLineTerminator()}? expressionSequence)? eos
+    : Yield ({p.notLineTerminator()}? expressionSequence)? eos
     ;
 
 withStatement
@@ -479,7 +478,7 @@ labelledStatement
     ;
 
 throwStatement
-    : Throw {this.notLineTerminator()}? expressionSequence eos
+    : Throw {p.notLineTerminator()}? expressionSequence eos
     ;
 
 tryStatement
@@ -663,8 +662,8 @@ singleExpression
     | New singleExpression typeArguments? arguments                          # NewExpression
     | New singleExpression typeArguments?                                    # NewExpression
     | singleExpression arguments                                             # ArgumentsExpression
-    | singleExpression {this.notLineTerminator()}? '++'                      # PostIncrementExpression
-    | singleExpression {this.notLineTerminator()}? '--'                      # PostDecreaseExpression
+    | singleExpression {p.notLineTerminator()}? '++'                      # PostIncrementExpression
+    | singleExpression {p.notLineTerminator()}? '--'                      # PostDecreaseExpression
     | Delete singleExpression                                                # DeleteExpression
     | Void singleExpression                                                  # VoidExpression
     | Typeof singleExpression                                                # TypeofExpression
@@ -849,6 +848,6 @@ setter
 eos
     : SemiColon
     | EOF
-    | {this.lineTerminatorAhead()}?
-    | {this.closeBrace()}?
+    | {p.lineTerminatorAhead()}?
+    | {p.closeBrace()}?
     ;

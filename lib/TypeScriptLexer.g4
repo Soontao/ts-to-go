@@ -2,22 +2,17 @@ lexer grammar TypeScriptLexer;
 
 channels { ERROR }
 
-options {
-    superClass=TypeScriptLexerBase;
-}
 
-
-MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment:              '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
-RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {this.IsRegexPossible()}? '/' IdentifierPart*;
+RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {p.IsRegexPossible()}? '/' IdentifierPart*;
 
 OpenBracket:                    '[';
 CloseBracket:                   ']';
 OpenParen:                      '(';
 CloseParen:                     ')';
-OpenBrace:                      '{' {this.ProcessOpenBrace();};
-TemplateCloseBrace:             {this.IsInTemplateString()}? '}' -> popMode;
-CloseBrace:                     '}' {this.ProcessCloseBrace();};
+OpenBrace:                      '{' {l.ProcessOpenBrace();};
+TemplateCloseBrace:             {p.IsInTemplateString()}? '}' -> popMode;
+CloseBrace:                     '}' {l.ProcessCloseBrace();};
 SemiColon:                      ';';
 Comma:                          ',';
 Assign:                         '=';
@@ -82,7 +77,7 @@ DecimalLiteral:                 DecimalIntegerLiteral '.' [0-9]* ExponentPart?
 /// Numeric Literals
 
 HexIntegerLiteral:              '0' [xX] HexDigit+;
-OctalIntegerLiteral:            '0' [0-7]+ {!this.IsStrictMode()}?;
+OctalIntegerLiteral:            '0' [0-7]+ {!p.IsStrictMode()}?;
 OctalIntegerLiteral2:           '0' [oO] [0-7]+;
 BinaryIntegerLiteral:           '0' [bB] [01]+;
 
@@ -177,10 +172,10 @@ Identifier:                     IdentifierStart IdentifierPart*;
 
 /// String Literals
 StringLiteral:                 ('"' DoubleStringCharacter* '"'
-             |                  '\'' SingleStringCharacter* '\'') {this.ProcessStringLiteral();}
+             |                  '\'' SingleStringCharacter* '\'') {l.ProcessStringLiteral();}
              ;
 
-BackTick:                       '`' {this.IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
+BackTick:                       '`' {l.IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
 
 WhiteSpaces:                    [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
 
@@ -196,8 +191,8 @@ UnexpectedCharacter:            . -> channel(ERROR);
 mode TEMPLATE;
 
 TemplateStringEscapeAtom:       '\\' .;
-BackTickInside:                 '`' {this.DecreaseTemplateDepth();} -> type(BackTick), popMode;
-TemplateStringStartExpression:  '${' {this.StartTemplateString();} -> pushMode(DEFAULT_MODE);
+BackTickInside:                 '`' {l.DecreaseTemplateDepth();} -> type(BackTick), popMode;
+TemplateStringStartExpression:  '${' {l.StartTemplateString();} -> pushMode(DEFAULT_MODE);
 TemplateStringAtom:             ~[`\\];
 
 // Fragment rules
