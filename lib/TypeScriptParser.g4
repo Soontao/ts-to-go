@@ -32,6 +32,7 @@ parser grammar TypeScriptParser;
 
 options {
     tokenVocab=TypeScriptLexer;
+    superClass=TypeScriptParserBase;
 }
 
 // SupportSyntax
@@ -95,7 +96,7 @@ primaryType
     | predefinedType                                #PredefinedPrimType
     | typeReference                                 #ReferencePrimType
     | objectType                                    #ObjectPrimType
-    | primaryType {p.notLineTerminator()}? '[' ']'    #ArrayPrimType
+    | primaryType {p.NotLineTerminator()}? '[' ']'    #ArrayPrimType
     | '[' tupleElementTypes ']'                     #TuplePrimType
     | typeQuery                                     #QueryPrimType
     | This                                          #ThisPrimType
@@ -161,7 +162,7 @@ typeMember
     ;
 
 arrayType
-    : primaryType {notLineTerminator()}? '[' ']'
+    : primaryType {p.NotLineTerminator()}? '[' ']'
     ;
 
 tupleType
@@ -409,7 +410,7 @@ emptyStatement_
     ;
 
 expressionStatement
-    : {p.notOpenBraceAndNotFunction()}? expressionSequence SemiColon?
+    : {p.NotOpenBraceAndNotFunction()}? expressionSequence SemiColon?
     ;
 
 ifStatement
@@ -423,8 +424,8 @@ iterationStatement
     | For '(' expressionSequence? SemiColon expressionSequence? SemiColon expressionSequence? ')' statement     # ForStatement
     | For '(' varModifier variableDeclarationList SemiColon expressionSequence? SemiColon expressionSequence? ')'
           statement                                                                                             # ForVarStatement
-    | For '(' singleExpression (In | Identifier{p.p("of")}?) expressionSequence ')' statement                # ForInStatement
-    | For '(' varModifier variableDeclaration (In | Identifier{p.p("of")}?) expressionSequence ')' statement # ForVarInStatement
+    | For '(' singleExpression (In | Identifier{p.P("of")}?) expressionSequence ')' statement                # ForInStatement
+    | For '(' varModifier variableDeclaration (In | Identifier{p.P("of")}?) expressionSequence ')' statement # ForVarInStatement
     ;
 
 varModifier
@@ -434,19 +435,19 @@ varModifier
     ;
 
 continueStatement
-    : Continue ({p.notLineTerminator()}? Identifier)? eos
+    : Continue ({p.NotLineTerminator()}? Identifier)? eos
     ;
 
 breakStatement
-    : Break ({p.notLineTerminator()}? Identifier)? eos
+    : Break ({p.NotLineTerminator()}? Identifier)? eos
     ;
 
 returnStatement
-    : Return ({p.notLineTerminator()}? expressionSequence)? eos
+    : Return ({p.NotLineTerminator()}? expressionSequence)? eos
     ;
 
 yieldStatement
-    : Yield ({p.notLineTerminator()}? expressionSequence)? eos
+    : Yield ({p.NotLineTerminator()}? expressionSequence)? eos
     ;
 
 withStatement
@@ -478,7 +479,7 @@ labelledStatement
     ;
 
 throwStatement
-    : Throw {p.notLineTerminator()}? expressionSequence eos
+    : Throw {p.NotLineTerminator()}? expressionSequence eos
     ;
 
 tryStatement
@@ -662,8 +663,8 @@ singleExpression
     | New singleExpression typeArguments? arguments                          # NewExpression
     | New singleExpression typeArguments?                                    # NewExpression
     | singleExpression arguments                                             # ArgumentsExpression
-    | singleExpression {p.notLineTerminator()}? '++'                      # PostIncrementExpression
-    | singleExpression {p.notLineTerminator()}? '--'                      # PostDecreaseExpression
+    | singleExpression {p.NotLineTerminator()}? '++'                      # PostIncrementExpression
+    | singleExpression {p.NotLineTerminator()}? '--'                      # PostDecreaseExpression
     | Delete singleExpression                                                # DeleteExpression
     | Void singleExpression                                                  # VoidExpression
     | Typeof singleExpression                                                # TypeofExpression
@@ -848,6 +849,6 @@ setter
 eos
     : SemiColon
     | EOF
-    | {p.lineTerminatorAhead()}?
-    | {p.closeBrace()}?
+    | {p.LineTerminatorAhead()}?
+    | {p.CloseBrace()}?
     ;

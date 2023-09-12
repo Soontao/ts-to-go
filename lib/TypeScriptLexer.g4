@@ -2,7 +2,11 @@ lexer grammar TypeScriptLexer;
 
 channels { ERROR }
 
+options {
+    superClass=TypeScriptLexerBase;
+}
 
+MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment:              '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
 RegularExpressionLiteral:       '/' RegularExpressionFirstChar RegularExpressionChar* {p.IsRegexPossible()}? '/' IdentifierPart*;
 
