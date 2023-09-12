@@ -1,8 +1,4 @@
-# Golang Project **Template**
-
-![](https://res.cloudinary.com/digf90pwi/image/upload/v1581731174/1_8bPiDNL1K1ZdK9O_T5IVKw_xshtjh.png)
-
-The template for golang project
+# TS to Go
 
 ## Setup Project
 
