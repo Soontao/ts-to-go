@@ -1,4 +1,4 @@
-package typescript
+package typescript_ast
 
 import (
 	"strings"

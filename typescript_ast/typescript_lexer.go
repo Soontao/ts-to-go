@@ -1,6 +1,6 @@
 // Code generated from ./lib/TypeScriptLexer.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
-package typescript
+package typescript_ast
 
 import (
 	"fmt"

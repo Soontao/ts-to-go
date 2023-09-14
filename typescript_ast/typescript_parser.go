@@ -1,6 +1,6 @@
 // Code generated from ./lib/TypeScriptParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
-package typescript // TypeScriptParser
+package typescript_ast // TypeScriptParser
 import (
 	"fmt"
 	"strconv"

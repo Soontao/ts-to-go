@@ -1,4 +1,4 @@
-package typescript
+package typescript_ast
 
 import "github.com/antlr4-go/antlr/v4"
 
