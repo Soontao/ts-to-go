@@ -9,8 +9,8 @@ import (
 
 func TestSimpleParse(t *testing.T) {
 	assert := assert.New(t)
-	program := Parse("const a: number = 1")
+	program, err := Parse("const a: number = 1")
+	assert.Nil(err)
 	assert.NotNil(program)
-	assert.Nil(program.GetParser().GetError())
 	antlr.ParseTreeWalkerDefault.Walk(&BaseTypeScriptParserListener{}, program)
 }
