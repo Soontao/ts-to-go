@@ -1,4 +1,4 @@
-module fornever.org
+module fornever.org/ts-to-go
 
 go 1.20
 

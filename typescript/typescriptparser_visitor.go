@@ -1,6 +1,6 @@
 // Code generated from ./lib/TypeScriptParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
-package lib // TypeScriptParser
+package typescript // TypeScriptParser
 import "github.com/antlr4-go/antlr/v4"
 
 // A complete Visitor for a parse tree produced by TypeScriptParser.
