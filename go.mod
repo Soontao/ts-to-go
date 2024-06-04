@@ -2,7 +2,7 @@ module fornever.org/ts-to-go
 
 go 1.22
 
-toolchain go1.22.3
+toolchain go1.22.4
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.1
