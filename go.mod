@@ -6,7 +6,7 @@ toolchain go1.23.3
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.1
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 )
 
 require (
